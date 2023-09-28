@@ -1,0 +1,25 @@
+services:
+  operations-db:
+    image: operations-db:demo-db
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    build:
+      context: ../
+      dockerfile: Dockerfile
+    healthcheck:
+      timeout: 45s
+      interval: 10s
+      retries: 10
+    environment:
+      - POSTGRES_USER=eversyncops
+      - POSTGRES_PASSWORD=3v3rsync
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    ports:
+      - "127.0.0.1:5432:5432"
+
+networks:
+  eversyncnet:
+    driver: bridge
+
+volumes:
+  db-data:
